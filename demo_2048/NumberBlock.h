@@ -18,6 +18,10 @@ public:
     int number;
     bool isMerged;
 
+signals:
+    void getScore(int s);
+    void win();
+
 private:
     QTimer* spawnTimer;
     QTimer* moveTimer;

@@ -26,11 +26,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         MainWindow.cpp \
-    NumberBlock.cpp
+    NumberBlock.cpp \
+    Dialog.cpp \
+    GameoverDialog.cpp \
+    RestartDialog.cpp \
+    WinDialog.cpp
 
 HEADERS += \
         MainWindow.h \
-    NumberBlock.h
+    NumberBlock.h \
+    Dialog.h \
+    GameoverDialog.h \
+    RestartDialog.h \
+    WinDialog.h
 
 FORMS += \
         MainWindow.ui

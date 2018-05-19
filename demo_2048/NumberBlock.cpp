@@ -24,11 +24,14 @@ NumberBlock::NumberBlock(QWidget* parent, int r, int c)
     show();
 
     spawnTimer = new QTimer(parent);
-    connect(spawnTimer,SIGNAL(timeout()),this,SLOT(spawning()));
+    connect(spawnTimer, SIGNAL(timeout()), this, SLOT(spawning()));
     moveTimer = new QTimer(parent);
-    connect(moveTimer,SIGNAL(timeout()),this,SLOT(moving()));
+    connect(moveTimer, SIGNAL(timeout()), this, SLOT(moving()));
     mergeTimer = new QTimer(parent);
-    connect(mergeTimer,SIGNAL(timeout()),this,SLOT(merging()));
+    connect(mergeTimer, SIGNAL(timeout()), this, SLOT(merging()));
+
+    connect(this, SIGNAL(getScore(int)), parent, SLOT(addScore(int)));
+    connect(this, SIGNAL(win()), parent, SLOT(win()));
 
     spawnTimer->start(20);
 }
@@ -92,9 +95,11 @@ void NumberBlock::merge(){
     trashTmp = NULL;
     QString n = QString::number(number);
     setText(n);
+    emit getScore(number);
+    if(number == 2048) emit win();
 
     int expo = ((int)log2(number) - 1);
-    bgColor -= 8 * expo;
+    bgColor -= 16;
     if(expo > 5) textColor = 240;
     if(expo > 8) setFont(QFont("Waree", size/4, QFont::Bold));
     setColor();
