@@ -30,7 +30,8 @@ SOURCES += \
     Dialog.cpp \
     GameoverDialog.cpp \
     RestartDialog.cpp \
-    WinDialog.cpp
+    WinDialog.cpp \
+    MenuDialog.cpp
 
 HEADERS += \
         MainWindow.h \
@@ -38,7 +39,8 @@ HEADERS += \
     Dialog.h \
     GameoverDialog.h \
     RestartDialog.h \
-    WinDialog.h
+    WinDialog.h \
+    MenuDialog.h
 
 FORMS += \
         MainWindow.ui

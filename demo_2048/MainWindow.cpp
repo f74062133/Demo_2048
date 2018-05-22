@@ -1,7 +1,5 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
-#include <iostream>
-using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,12 +12,14 @@ MainWindow::MainWindow(QWidget *parent) :
     gameOverDialog = NULL;
     restartDialog = NULL;
     winDialog = NULL;
+    menuDialog = NULL;
     unlockTimer = new QTimer();
 
     ui->bestScoreTextLabel->setText(QString::number(bestScore));
 
     connect(unlockTimer, SIGNAL(timeout()), this, SLOT(unlockKeyboard()));
     connect(ui->restartBtn, SIGNAL(clicked(bool)), this, SLOT(restart()));
+    connect(ui->menuBtn, SIGNAL(clicked(bool)), this, SLOT(openMenu()));
 
     setup();
 }
@@ -27,6 +27,14 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete unlockTimer;
+    delete gameOverDialog;
+    delete restartDialog;
+    delete winDialog;
+    delete menuDialog;
+    for(int i = 0; i < 4; ++i)
+        for(int j = 0; j < 4; ++j)
+            delete blocks[i][j];
 }
 
 void MainWindow::setup(){
@@ -44,12 +52,6 @@ void MainWindow::setup(){
 
     while(!spawnBlock());
     while(!spawnBlock());
-}
-
-bool MainWindow::hasBlock(int row, int col){
-    if(row < 0 || row > 3 || col < 0 || col > 3) return false;
-    if(blocks[row][col] == NULL) return false;
-    else return true;
 }
 
 bool MainWindow::spawnBlock(){
@@ -180,6 +182,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 
 }
 
+bool MainWindow::hasBlock(int row, int col){
+    if(row < 0 || row > 3 || col < 0 || col > 3) return false;
+    if(blocks[row][col] == NULL) return false;
+    else return true;
+}
+
 bool MainWindow::collide(int curRow, int curCol, int targetRow, int targetCol){
     if(!hasBlock(curRow, curCol) || !hasBlock(targetRow, targetCol)) return false;
     if(blocks[targetRow][targetCol]->isMerged) return false;
@@ -214,6 +222,17 @@ void MainWindow::addScore(int s){
     }
 }
 
+void MainWindow::restart(){
+    if(restartDialog == NULL)
+        restartDialog = new RestartDialog(this);
+}
+
+void MainWindow::win(){
+    if(hasWon) return;
+    hasWon = true;
+    winDialog = new WinDialog(this);
+}
+
 void MainWindow::tryAgain(){
     if(gameOverDialog != NULL){
         delete gameOverDialog;
@@ -229,10 +248,6 @@ void MainWindow::tryAgain(){
     setup();
 }
 
-void MainWindow::restart(){
-    restartDialog = new RestartDialog(this);
-}
-
 void MainWindow::cancel(){
     if(restartDialog != NULL){
         delete restartDialog;
@@ -242,10 +257,21 @@ void MainWindow::cancel(){
         delete winDialog;
         winDialog = NULL;
     }
+    if(menuDialog != NULL){
+        delete menuDialog;
+        menuDialog = NULL;
+    }
 }
 
-void MainWindow::win(){
-    if(hasWon) return;
-    hasWon = true;
-    winDialog = new WinDialog(this);
+void MainWindow::openMenu(){
+    if(menuDialog == NULL) menuDialog = new MenuDialog(this);
+}
+
+void MainWindow::setColor(int hue){
+    Dialog::colorH = hue;
+    menuDialog->setColor(hue);
+
+    for(int i = 0; i < 4; ++i)
+        for(int j = 0; j < 4; ++j)
+            if(hasBlock(i, j)) blocks[i][j]->setColorH(hue);
 }

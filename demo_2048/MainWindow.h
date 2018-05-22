@@ -2,16 +2,18 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
+#include <QTimer>
+#include <QKeyEvent>
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 #include "NumberBlock.h"
 #include "GameoverDialog.h"
 #include "RestartDialog.h"
 #include "WinDialog.h"
-#include <cstdio>
-#include <cstdlib>
-#include <ctime>
-#include <QLabel>
-#include <QTimer>
-#include <QKeyEvent>
+#include "MenuDialog.h"
+using namespace std;
 
 namespace Ui {
 class MainWindow;
@@ -32,10 +34,6 @@ public slots:
     void cancel();
     void win();
 
-private slots:
-    void unlockKeyboard();
-    void restart();
-
 private:
     void setup();
     bool spawnBlock();
@@ -48,12 +46,19 @@ private:
     GameoverDialog* gameOverDialog;
     RestartDialog* restartDialog;
     WinDialog* winDialog;
+    MenuDialog* menuDialog;
     QTimer* unlockTimer;
     int score;
     int bestScore;
     bool isMoving;
     bool hasOver;
     bool hasWon;
+
+private slots:
+    void unlockKeyboard();
+    void restart();
+    void openMenu();
+    void setColor(int hue);
 
 };
 
