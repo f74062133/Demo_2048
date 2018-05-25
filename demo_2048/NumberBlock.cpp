@@ -3,7 +3,7 @@
 const int NumberBlock::boardX = 25;
 const int NumberBlock::boardY = 240;
 const int NumberBlock::blockGapSize = 100;
-int NumberBlock:: colorH = 0;
+int NumberBlock:: colorH;
 
 NumberBlock::NumberBlock(QWidget* parent, int r, int c)
     :QLabel(parent)

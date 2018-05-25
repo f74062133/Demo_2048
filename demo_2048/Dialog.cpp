@@ -5,22 +5,21 @@ const int Dialog::boardY = 230;
 const int Dialog::boardSize = 411;
 const int Dialog::backgroundColorS = 32;
 const int Dialog::backgroundColorV = 200;
-const int Dialog::textColorS = 48;
-const int Dialog::textColorV = 100;
-int Dialog::colorH = 0;
+const int Dialog::textColorS = 240;
+const int Dialog::textColorV = 80;
+int Dialog::colorH;
 
 Dialog::Dialog(QWidget* parent, QString titleText, QString buttonText)
     :QLabel(parent)
 {
-    setColor(0);
-    setGeometry(boardX, boardY ,boardSize ,boardSize);
-
     titleLabel = new QLabel(titleText, (QWidget*)this);
     setLabelStyle(titleLabel, 36, 100);
 
     button = new QPushButton(buttonText, (QWidget*)this);
     setButtonStyle(button, 24, 220);
 
+    setColor(colorH);
+    setGeometry(boardX, boardY ,boardSize ,boardSize);
 }
 
 Dialog::~Dialog(){
@@ -58,4 +57,6 @@ void Dialog::setColor(int hue){
     QString c = "hsva(" + QString::number(colorH) + ", " + QString::number(backgroundColorS) + ", " + QString::number(backgroundColorV) + ", 50%)";
     QString s = "QLabel{ border-radius: 10px; background-color: " + c + "; }";
     setStyleSheet(s);
+    setLabelStyle(titleLabel, 36, titleLabel->y());
+    setButtonStyle(button, 24, button->y());
 }

@@ -2,12 +2,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QLabel>
 #include <QTimer>
 #include <QKeyEvent>
-#include <cstdio>
+#include <QFile>
+#include <QTextStream>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
+#include <fstream>
 #include "NumberBlock.h"
 #include "GameoverDialog.h"
 #include "RestartDialog.h"

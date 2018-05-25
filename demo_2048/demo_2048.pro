@@ -47,3 +47,7 @@ FORMS += \
 
 RESOURCES += \
     resources.qrc
+
+STATECHARTS +=
+
+DISTFILES +=

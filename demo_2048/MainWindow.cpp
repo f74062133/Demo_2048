@@ -1,5 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include <iostream>
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,8 +16,23 @@ MainWindow::MainWindow(QWidget *parent) :
     winDialog = NULL;
     menuDialog = NULL;
     unlockTimer = new QTimer();
+    for(int i = 0; i < 4; i++)
+        for(int j = 0; j < 4; j++)
+            blocks[i][j] = NULL;
+
+    QFile setting(":/text/setting.txt");
+    int hue;
+    if(!setting.open(QIODevice::ReadOnly | QIODevice::Text)){
+        exit(1);
+    }
+    else{
+        QTextStream in(&setting);
+        in >> bestScore >> hue;
+    }
+    setting.close();
 
     ui->bestScoreTextLabel->setText(QString::number(bestScore));
+    setColor(hue);
 
     connect(unlockTimer, SIGNAL(timeout()), this, SLOT(unlockKeyboard()));
     connect(ui->restartBtn, SIGNAL(clicked(bool)), this, SLOT(restart()));
@@ -26,6 +43,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    QFile setting("../demo_2048/text/setting.txt");
+    if(!setting.open(QIODevice::ReadWrite | QIODevice::Text)){
+        exit(1);
+    }
+    else{
+        QTextStream out(&setting);
+        out << bestScore << " " << Dialog::colorH << endl;
+        setting.close();
+    }
+
     delete ui;
     delete unlockTimer;
     delete gameOverDialog;
@@ -269,7 +296,8 @@ void MainWindow::openMenu(){
 
 void MainWindow::setColor(int hue){
     Dialog::colorH = hue;
-    menuDialog->setColor(hue);
+    NumberBlock::colorH = hue;
+    if(menuDialog != NULL) menuDialog->setColor(hue);
 
     for(int i = 0; i < 4; ++i)
         for(int j = 0; j < 4; ++j)

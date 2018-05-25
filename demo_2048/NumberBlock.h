@@ -19,6 +19,7 @@ public:
     const static int boardX;
     const static int boardY;
     const static int blockGapSize;
+    static int colorH;
 
     int number;
     bool isMerged;
@@ -45,7 +46,6 @@ private:
     int currentX;
     int currentY;
 
-    static int colorH;
     int colorS;
     int backgroundColorV;
     int textColorV;

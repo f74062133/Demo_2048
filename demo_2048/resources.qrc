@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>image/menu.png</file>
+        <file>text/setting.txt</file>
     </qresource>
 </RCC>

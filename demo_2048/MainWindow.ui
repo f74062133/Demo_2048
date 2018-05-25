@@ -488,13 +488,15 @@ color: rgb(85, 85, 85);</string>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
     <property name="text">
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normalon>:/image/menu.png</normalon>
-     </iconset>
+     <iconset resource="resources.qrc">
+      <normaloff>:/image/menu.png</normaloff>:/image/menu.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -509,6 +511,8 @@ color: rgb(85, 85, 85);</string>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
